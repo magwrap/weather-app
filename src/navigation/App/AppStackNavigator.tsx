@@ -1,8 +1,8 @@
 import React from "react";
 import ModalScreen from "@/screens/App/ModalScreen";
-import NotFoundScreen from "@/screens/App/NotFoundScreen";
-import BottomTabNavigator from "./BottomTabNavigator";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import TabOneScreen from "@/screens/App/TabOneScreen";
 
 interface AppStackNavigatorProps {}
 
@@ -13,25 +13,10 @@ const AppStackNavigator: React.FC<AppStackNavigatorProps> = ({}) => {
     <Stack.Navigator>
       <Stack.Screen
         name="Root"
-        component={BottomTabNavigator}
+        component={TabOneScreen}
         options={{ headerShown: false }}
       />
-      {/* <Stack.Screen
-        name="Root"
-        component={TopTabNavigator}
-        options={{ headerShown: false }}
-      /> */}
-      {/* <Stack.Screen
-        name="Root"
-        component={DrawerNavigator}
-        options={{ headerShown: false }}
-      /> */}
-      <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ title: "Oops!" }}
-        // fallbackscreen
-      />
+
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
         {/* zewnetrzny poza tabsami */}
