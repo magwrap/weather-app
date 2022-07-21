@@ -2,7 +2,7 @@ import React from "react";
 import ModalScreen from "@/screens/App/ModalScreen";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import TabOneScreen from "@/screens/App/TabOneScreen";
+import CityWeatherScreen from "@/screens/App/CityWeatherScreen";
 
 interface AppStackNavigatorProps {}
 
@@ -13,7 +13,7 @@ const AppStackNavigator: React.FC<AppStackNavigatorProps> = ({}) => {
     <Stack.Navigator>
       <Stack.Screen
         name="Root"
-        component={TabOneScreen}
+        component={CityWeatherScreen}
         options={{ headerShown: false }}
       />
 

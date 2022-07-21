@@ -5,8 +5,9 @@ import {
   currentWeatherInterface,
   errorInterface,
   weatherForecastInterface,
+  WEATHER_ERROR,
 } from "./weatherHookHelpers";
-
+//https://www.weatherapi.com/ --> API
 const useWeather = () => {
   const getCityCurrentWeather = async (
     cityName: string,
@@ -17,13 +18,14 @@ const useWeather = () => {
       cityName,
       `&aqi=${airQuality ? "yes" : "no"}`
     );
-    console.log(url);
     try {
       const res = await fetch(url);
       const resJSON: currentWeatherInterface | errorInterface =
         await res.json();
       return resJSON;
-    } catch {}
+    } catch {
+      return WEATHER_ERROR;
+    }
   };
 
   const getCityWeatherForecast = async (
@@ -40,13 +42,14 @@ const useWeather = () => {
       }
 `
     );
-
     try {
       const res = await fetch(url);
       const resJSON: weatherForecastInterface | errorInterface =
         await res.json();
       return resJSON;
-    } catch {}
+    } catch {
+      return WEATHER_ERROR;
+    }
   };
 
   const searchCity = async (cityName: string) => {
@@ -55,7 +58,9 @@ const useWeather = () => {
       const res = await fetch(url);
       const resJSON: cityInterface[] | errorInterface = await res.json();
       return resJSON;
-    } catch {}
+    } catch {
+      return WEATHER_ERROR;
+    }
   };
 
   return { getCityCurrentWeather, getCityWeatherForecast, searchCity };

@@ -1,23 +1,14 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useEffect } from "react";
 import useCachedResources from "./src/hooks/useCachedResources";
 import Routes from "@/navigation/Routes";
 import "react-native-gesture-handler";
 import { Provider } from "react-redux";
-import { store } from "@/state";
+import { getLocation, setLocation, store } from "@/state";
 
-import {
-  NavigationContainer,
-  DarkTheme as NavigationDarkTheme,
-  DefaultTheme as NavigationDefaultTheme,
-} from "@react-navigation/native";
-import {
-  DarkTheme as PaperDarkTheme,
-  DefaultTheme as PaperDefaultTheme,
-  Provider as PaperProvider,
-} from "react-native-paper";
-import { MyColors } from "@/styles/ColorPallete";
-import { useAppSelector } from "@/hooks/reduxHooks";
+import { NavigationContainer } from "@react-navigation/native";
+import { Provider as PaperProvider } from "react-native-paper";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { CombinedDarkTheme, CombinedDefaultTheme } from "@/styles/CobinedThems";
 
 export default function App() {
@@ -28,6 +19,13 @@ export default function App() {
       (state) => state.DarkThemeReducer.isDarkTheme
     );
     let theme = isThemeDark ? CombinedDarkTheme : CombinedDefaultTheme;
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+      (async () => {
+        const location = await getLocation();
+        dispatch(setLocation(location));
+      })();
+    }, []);
     return (
       <PaperProvider theme={theme}>
         <NavigationContainer theme={theme}>

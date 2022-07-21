@@ -10,6 +10,11 @@ export const createApiUrl = (apiCall: API_CALLS, query: string, extra = "") => {
   return `https://api.weatherapi.com/v1/${apiCall}?key=${WEATHER_KEY}&q=${query}${extra}`;
 };
 
+export const WEATHER_ERROR: errorInterface = {
+  code: 1,
+  message: "Something went wrong on your side...",
+};
+
 export interface errorInterface {
   code: number;
   message: string;

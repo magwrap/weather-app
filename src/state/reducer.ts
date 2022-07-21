@@ -1,7 +1,11 @@
-import { combineReducers } from '@reduxjs/toolkit';
-import CurrentUserReducer from './slices/CurrentUser';
-import DarkThemeReducer from './slices/DarkTheme';
+import { combineReducers } from "@reduxjs/toolkit";
 
-const rootReducer = combineReducers({CurrentUserReducer, DarkThemeReducer})
+import DarkThemeReducer from "./slices/DarkTheme";
+import LocationReducer from "./slices/Location";
+
+const rootReducer = combineReducers({
+  DarkThemeReducer,
+  LocationReducer,
+});
 export default rootReducer;
-export type RootState = ReturnType<typeof rootReducer>
+export type RootState = ReturnType<typeof rootReducer>;
