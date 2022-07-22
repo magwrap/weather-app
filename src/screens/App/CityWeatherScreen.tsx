@@ -1,16 +1,20 @@
-import Center from "@/components/Center";
 import DarkThemeSwitch from "@/components/DarkThemeSwitch";
-import GetMyLocationButton from "@/components/GetMyLocationButton";
+import GetMyLocationButton from "@/components/Buttons/GetMyLocationButton";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useWeather } from "@/hooks/useWeather/useWeather";
+import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
+import { View } from "react-native";
 import { Avatar, Divider, Paragraph } from "react-native-paper";
+import GoToSearchCityButton from "@/components/Buttons/GoToSearchCityButton";
+import Layout from "@/constants/Layout";
 
 interface CityWeatherScreenProps {}
 //TODO: utworzyc interfejsy do konsumpsji api
 const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
   const [weatherIcon, setWeatherIcon] = React.useState("");
   const { getCityWeatherForecast } = useWeather();
+  const navigation = useNavigation();
   const location = useAppSelector((state) => state.LocationReducer.location);
 
   React.useEffect(() => {
@@ -28,13 +32,21 @@ const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
   };
 
   return (
-    <Center>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "space-between",
+        paddingTop: Layout.statusBarHeight,
+      }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <GoToSearchCityButton />
+        <GetMyLocationButton />
+      </View>
       <Paragraph>{location}</Paragraph>
-      <GetMyLocationButton />
       <Divider />
       <Avatar.Image size={54} source={{ uri: "https:" + weatherIcon }} />
       <DarkThemeSwitch />
-    </Center>
+    </View>
   );
 };
 

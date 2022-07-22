@@ -3,6 +3,8 @@ import ModalScreen from "@/screens/App/ModalScreen";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CityWeatherScreen from "@/screens/App/CityWeatherScreen";
+import { ScreenNames } from "../ScreenNames";
+import SearchCityScreen from "@/screens/App/SearchCityScreen";
 
 interface AppStackNavigatorProps {}
 
@@ -12,8 +14,14 @@ const AppStackNavigator: React.FC<AppStackNavigatorProps> = ({}) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Root"
+        name={ScreenNames.CITY_WEATHER_SC}
         component={CityWeatherScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name={ScreenNames.SEARCH_CITY_SC}
+        component={SearchCityScreen}
         options={{ headerShown: false }}
       />
 

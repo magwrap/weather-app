@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-import { Button, useTheme } from "react-native-paper";
+import { Button, IconButton, useTheme } from "react-native-paper";
 import * as Location from "expo-location";
 import { BING_MAPS_KEY } from "API_KEY";
 import { useAppDispatch } from "@/hooks/reduxHooks";
@@ -49,20 +49,18 @@ const GetMyLocationButton: React.FC<GetMyLocationButtonProps> = ({}) => {
   };
   return (
     <>
-      <Button
-        mode="outlined"
+      <IconButton
         onPress={getMyLocation}
         icon={() => (
           <MaterialIcons
             name={permissionGranted ? "gps-fixed" : "gps-not-fixed"}
-            size={IconSizes.LARGE}
+            size={IconSizes.NORMAL}
             color={colors.primary}
             //TODO: dodac animacje do ikony lokacji
           />
-        )}>
-        Get My Location
-        {/* TODO: alertuje error message jesli sie pojawi jakas */}
-      </Button>
+        )}
+      />
+      {/* TODO: alertuje error message jesli sie pojawi jakas */}
     </>
   );
 };
