@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { Button, IconButton, useTheme } from "react-native-paper";
 import * as Location from "expo-location";
 import { BING_MAPS_KEY } from "API_KEY";
-import { useAppDispatch } from "@/hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { setLocation } from "@/state";
 import { MaterialIcons } from "@expo/vector-icons";
 import { IconSizes } from "@/styles/Fonts";
@@ -15,10 +15,13 @@ const GetMyLocationButton: React.FC<GetMyLocationButtonProps> = ({}) => {
   const [permissionGranted, setPermissionGranted] = useState(false);
 
   const dispatch = useAppDispatch();
+  const location = useAppSelector((state) => state.LocationReducer.location);
   const { colors } = useTheme();
 
   useEffect(() => {
-    getMyLocation();
+    if (!location) {
+      getMyLocation();
+    }
   }, []);
 
   const getMyLocation = async () => {
