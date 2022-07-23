@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { ScrollView, View } from "react-native";
 import {
+  ActivityIndicator,
   Avatar,
   List,
   Paragraph,
@@ -20,13 +21,12 @@ import {
 } from "react-native-paper";
 
 interface SearchCityScreenProps {}
-//TODO: zrobic szukanie miast i ustawia to lokacje
-//React native paper list
 const SearchCityScreen: React.FC<SearchCityScreenProps> = ({}) => {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [citiesQuery, setCitiesQuery] = React.useState<
     cityInterface[] | errorInterface
   >([]);
+  const [searching, setSearching] = React.useState(false);
   const { searchCity } = useWeather();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
@@ -37,9 +37,11 @@ const SearchCityScreen: React.FC<SearchCityScreenProps> = ({}) => {
   };
 
   const search = async (query: string) => {
+    setSearching(true);
     const res = await searchCity(query);
-    console.log(res);
+
     setCitiesQuery(res);
+    setSearching(false);
   };
 
   const changeLocation = (cityName: string) => {
@@ -54,17 +56,24 @@ const SearchCityScreen: React.FC<SearchCityScreenProps> = ({}) => {
         placeholder="Search"
         onChangeText={onChangeSearch}
         value={searchQuery}
+        style={{ marginHorizontal: "2%" }}
       />
+      {searching ? <ActivityIndicator style={{ margin: "5%" }} /> : null}
       {!Array.isArray(citiesQuery) ? (
-        <Paragraph>No result</Paragraph>
+        <Paragraph style={{ textAlign: "center" }}>No result</Paragraph>
       ) : (
-        <ScrollView>
-          {citiesQuery.map((city) => (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {citiesQuery.map((city, i) => (
             <TouchableRipple
+              key={i}
               onPress={() => changeLocation(`${city.name}, ${city.country}`)}>
               <List.Item
                 title={city.name}
                 description={city.country}
+                style={{
+                  backgroundColor: "rgba(0,0,0,0.04)",
+                  marginVertical: "0.5%",
+                }}
                 left={(props) => (
                   <View style={{ justifyContent: "center" }}>
                     <Avatar.Image
