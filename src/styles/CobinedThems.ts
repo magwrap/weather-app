@@ -20,6 +20,7 @@ export const CombinedDefaultTheme = {
     ...NavigationDefaultTheme.colors,
     primary: MyColors.PRIMARY,
     accent: MyColors.ACCENT,
+    // background: MyColors.BACKGROUND,
   },
 };
 export const CombinedDarkTheme = {

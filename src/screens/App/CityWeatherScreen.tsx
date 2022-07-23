@@ -1,26 +1,24 @@
-import DarkThemeSwitch from "@/components/DarkThemeSwitch";
 import GetMyLocationButton from "@/components/Buttons/GetMyLocationButton";
-import { useAppSelector } from "@/hooks/reduxHooks";
+import {
+  toggleTheme,
+  useAppDispatch,
+  useAppSelector,
+} from "@/hooks/reduxHooks";
 import { useWeather } from "@/hooks/useWeather/useWeather";
 import * as React from "react";
-import {
-  ImageBackground,
-  RefreshControl,
-  ScrollView,
-  View,
-} from "react-native";
-import { Divider, Headline, Title } from "react-native-paper";
+import { RefreshControl, ScrollView, View } from "react-native";
+import { Appbar, Divider, Title, useTheme } from "react-native-paper";
 import GoToSearchCityButton from "@/components/Buttons/GoToSearchCityButton";
 import Layout from "@/constants/Layout";
 import { weatherForecastInterface } from "@/hooks/useWeather/weatherHookHelpers";
-import MyRefreshControl from "@/components/MyRefreshControl";
+import DisplayWeatherInfo from "@/components/WeatherInfo/DisplayWeatherInfo";
 
 const wait = (timeout: number) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 
 interface CityWeatherScreenProps {}
-//TODO: utworzyc interfejsy do konsumpsji api
+
 const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
   const [currentWeather, setCurrentWeather] =
     React.useState<weatherForecastInterface | null>(null);
@@ -34,6 +32,10 @@ const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
   }, []);
 
   const location = useAppSelector((state) => state.LocationReducer.location);
+  const isDarkTheme = useAppSelector(
+    (state) => state.DarkThemeReducer.isDarkTheme
+  );
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     console.log("location: ", location);
@@ -41,13 +43,20 @@ const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
   }, [location]);
 
   const getCityForecast = async (cityName: string) => {
-    const weather = await getCityWeatherForecast(cityName, 1, false, false);
+    const weather = await getCityWeatherForecast(cityName, 3, true, false);
 
     if (weather && "current" in weather) {
-      console.log(weather?.current.condition.icon);
+      console.log(weather?.current.is_day);
+      if (weather.current.is_day && isDarkTheme) {
+        dispatch(toggleTheme());
+      } else if (!weather.current.is_day && !isDarkTheme) {
+        dispatch(toggleTheme());
+      }
       setCurrentWeather(weather);
     }
   };
+
+  const { colors } = useTheme();
 
   return (
     <View
@@ -55,32 +64,38 @@ const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
         flex: 1,
         justifyContent: "space-between",
         paddingTop: Layout.statusBarHeight,
+        marginHorizontal: "2%",
       }}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}>
         <GoToSearchCityButton />
-        <GetMyLocationButton />
+        <View>
+          <GetMyLocationButton />
+        </View>
       </View>
+      <Title
+        style={{
+          alignSelf: "center",
+          textAlign: "center",
+          marginVertical: "2%",
+          marginHorizontal: "20%",
+        }}>
+        {location}
+      </Title>
+      <Divider style={{ height: 2 }} />
       <ScrollView
+        showsVerticalScrollIndicator={false}
         style={{ flex: 1 }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
-        <Title style={{ alignSelf: "center" }}>{location}</Title>
-        <Divider />
         {currentWeather ? (
-          <ImageBackground
-            source={{ uri: "https:" + currentWeather?.current.condition.icon }}
-            style={{ height: 400 }}>
-            <Headline>
-              {currentWeather.current.temp_c}
-              {"°"}
-            </Headline>
-            <Headline>{currentWeather.location.localtime}</Headline>
-            <Headline>{currentWeather.current.condition.text}</Headline>
-          </ImageBackground>
+          <DisplayWeatherInfo currentWeather={currentWeather} />
         ) : null}
       </ScrollView>
-      <DarkThemeSwitch />
     </View>
   );
 };
