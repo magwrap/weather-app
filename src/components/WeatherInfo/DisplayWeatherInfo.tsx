@@ -1,16 +1,7 @@
 import { weatherForecastInterface } from "@/hooks/useWeather/weatherHookHelpers";
-import { current } from "@reduxjs/toolkit";
 import React from "react";
-import { ScrollView, StyleSheet, Text, View, Image } from "react-native";
-import {
-  Subheading,
-  Divider,
-  Title,
-  Caption,
-  Paragraph,
-  useTheme,
-  Surface,
-} from "react-native-paper";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Subheading, Divider, useTheme, Surface } from "react-native-paper";
 import AirPollution from "./AirPollution";
 import CurrenWeather from "./CurrenWeather";
 import WeatherForecast from "./WeatherForecast";
@@ -42,14 +33,7 @@ const DisplayWeatherInfo: React.FC<DisplayWeatherInfoProps> = ({
       </View>
 
       <Divider style={{ height: 2 }} />
-      <Subheading
-        style={{
-          textAlign: "center",
-          marginVertical: "2%",
-          fontStyle: "italic",
-        }}>
-        Air Quality Index
-      </Subheading>
+      <Subheading style={styles.AQI}>Air Quality Index</Subheading>
       <View style={[styles.shelf, { flexDirection: "row" }]}>
         <AirPollution air_quality={currentWeather.current.air_quality} />
       </View>
@@ -79,6 +63,11 @@ const styles = StyleSheet.create({
 
   airShelf: { flexDirection: "row", justifyContent: "space-around" },
   iconMargin: { marginRight: "4%" },
+  AQI: {
+    textAlign: "center",
+    marginVertical: "2%",
+    fontStyle: "italic",
+  },
   surface: {
     elevation: 4,
   },
