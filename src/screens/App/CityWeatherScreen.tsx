@@ -38,7 +38,6 @@ const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    console.log("location: ", location);
     if (location) getCityForecast(location);
   }, [location]);
 
@@ -46,7 +45,6 @@ const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
     const weather = await getCityWeatherForecast(cityName, 3, true, false);
 
     if (weather && "current" in weather) {
-      console.log(weather?.current.is_day);
       if (weather.current.is_day && isDarkTheme) {
         dispatch(toggleTheme());
       } else if (!weather.current.is_day && !isDarkTheme) {
@@ -55,7 +53,7 @@ const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
       setCurrentWeather(weather);
     }
   };
-
+  //TODO: dodac layout animacje przy otwieraniu aplikacji
   return (
     <View
       style={{

@@ -33,8 +33,8 @@ const DisplayWeatherInfo: React.FC<DisplayWeatherInfoProps> = ({
       </View>
 
       <Divider style={{ height: 2 }} />
-      <Subheading style={styles.AQI}>Air Quality Index</Subheading>
-      <View style={[styles.shelf, { flexDirection: "row" }]}>
+
+      <View style={[styles.shelf]}>
         <AirPollution air_quality={currentWeather.current.air_quality} />
       </View>
     </Surface>
@@ -63,11 +63,7 @@ const styles = StyleSheet.create({
 
   airShelf: { flexDirection: "row", justifyContent: "space-around" },
   iconMargin: { marginRight: "4%" },
-  AQI: {
-    textAlign: "center",
-    marginVertical: "2%",
-    fontStyle: "italic",
-  },
+
   surface: {
     elevation: 4,
   },

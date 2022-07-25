@@ -64,6 +64,7 @@ const SearchCityScreen: React.FC<SearchCityScreenProps> = ({}) => {
       ) : (
         <ScrollView showsVerticalScrollIndicator={false}>
           {citiesQuery.map((city, i) => (
+            // TODO: DODAC Layout animacje przy pojawianiu sie wynikow szukania
             <TouchableRipple
               key={i}
               onPress={() => changeLocation(`${city.name}, ${city.country}`)}>
