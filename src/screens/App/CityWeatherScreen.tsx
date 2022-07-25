@@ -56,8 +56,6 @@ const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
     }
   };
 
-  const { colors } = useTheme();
-
   return (
     <View
       style={{
@@ -70,21 +68,24 @@ const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
+          width: "100%",
         }}>
-        <GoToSearchCityButton />
-        <View>
+        <View style={{ width: "15%" }}>
+          <GoToSearchCityButton />
+        </View>
+        <Title
+          style={{
+            alignSelf: "center",
+            textAlign: "center",
+            marginVertical: "2%",
+            width: "70%",
+          }}>
+          {location}
+        </Title>
+        <View style={{ width: "15%" }}>
           <GetMyLocationButton />
         </View>
       </View>
-      <Title
-        style={{
-          alignSelf: "center",
-          textAlign: "center",
-          marginVertical: "2%",
-          marginHorizontal: "20%",
-        }}>
-        {location}
-      </Title>
       <Divider style={{ height: 2 }} />
       <ScrollView
         showsVerticalScrollIndicator={false}

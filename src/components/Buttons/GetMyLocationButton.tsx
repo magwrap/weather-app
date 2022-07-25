@@ -27,15 +27,17 @@ const GetMyLocationButton: React.FC<GetMyLocationButtonProps> = ({}) => {
   const getMyLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
-      setErrorMsg("Permission to access location was denied");
       setPermissionGranted(false);
       return;
     }
     setPermissionGranted(true);
-    let location = await Location.getCurrentPositionAsync({});
+    let currentLocation = await Location.getCurrentPositionAsync({
+      accuracy: Location.LocationAccuracy.Low,
+    });
+
     const fetch = require("node-fetch");
 
-    const url = `http://dev.virtualearth.net/REST/v1/Locations/${location.coords.latitude},${location.coords.longitude}?o=json&key=${BING_MAPS_KEY}`;
+    const url = `http://dev.virtualearth.net/REST/v1/Locations/${currentLocation.coords.latitude},${currentLocation.coords.longitude}?o=json&key=${BING_MAPS_KEY}`;
 
     try {
       const res = await fetch(url);
