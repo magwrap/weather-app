@@ -16,7 +16,7 @@ const DisplayWeatherInfo: React.FC<DisplayWeatherInfoProps> = ({
 }) => {
   const { colors } = useTheme();
   return (
-    <Surface style={[styles.surface, { backgroundColor: colors.background }]}>
+    <View style={[styles.surface, { backgroundColor: colors.background }]}>
       <View style={styles.shelf}>
         <CurrenWeather currentWeatherCurrent={currentWeather.current} />
       </View>
@@ -37,7 +37,7 @@ const DisplayWeatherInfo: React.FC<DisplayWeatherInfoProps> = ({
       <View style={[styles.shelf]}>
         <AirPollution air_quality={currentWeather.current.air_quality} />
       </View>
-    </Surface>
+    </View>
   );
 };
 const styles = StyleSheet.create({
@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
   iconMargin: { marginRight: "4%" },
 
   surface: {
-    elevation: 4,
+    // elevation: 4,
+    padding: "1%",
   },
 });
 

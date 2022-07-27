@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Button, IconButton, useTheme } from "react-native-paper";
+import { LayoutAnimation, StyleSheet, View } from "react-native";
+import { IconButton, useTheme } from "react-native-paper";
 import * as Location from "expo-location";
 import { BING_MAPS_KEY } from "API_KEY";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
@@ -8,7 +8,6 @@ import { setLocation } from "@/state";
 import { MaterialIcons } from "@expo/vector-icons";
 import { IconSizes } from "@/styles/Fonts";
 import Animated, {
-  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -18,9 +17,8 @@ import Animated, {
 interface GetMyLocationButtonProps {}
 
 const GetMyLocationButton: React.FC<GetMyLocationButtonProps> = ({}) => {
-  const [errorMsg, setErrorMsg] = useState("");
   const [permissionGranted, setPermissionGranted] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useAppDispatch();
   const location = useAppSelector((state) => state.LocationReducer.location);
@@ -78,7 +76,9 @@ const GetMyLocationButton: React.FC<GetMyLocationButtonProps> = ({}) => {
           resJSON.resourceSets[0].resources[0].address["formattedAddress"]
         )
       );
+
       setLoading(false);
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     } catch (err) {
       console.error(err);
       setLoading(false);

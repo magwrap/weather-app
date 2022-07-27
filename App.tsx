@@ -10,10 +10,17 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Provider as PaperProvider } from "react-native-paper";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { CombinedDarkTheme, CombinedDefaultTheme } from "@/styles/CobinedThems";
+import { LayoutAnimation, Platform, UIManager } from "react-native";
+
+if (Platform.OS === "android") {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
-
+  LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
   const Themes = () => {
     const isThemeDark = useAppSelector(
       (state) => state.DarkThemeReducer.isDarkTheme

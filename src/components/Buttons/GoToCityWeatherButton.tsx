@@ -3,7 +3,6 @@ import { IconSizes } from "@/styles/Fonts";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { IconButton, useTheme } from "react-native-paper";
 
 interface GoToCityWeatherButtonProps {}
@@ -13,12 +12,13 @@ const GoToCityWeatherButton: React.FC<GoToCityWeatherButtonProps> = ({}) => {
   const navigation = useNavigation();
   const goToCityWeather = () =>
     navigation.navigate(ScreenNames.CITY_WEATHER_SC);
+
   return (
     <IconButton
       onPress={goToCityWeather}
       icon={() => (
         <MaterialIcons
-          name="search"
+          name="arrow-back"
           size={IconSizes.NORMAL}
           color={colors.primary}
         />
@@ -26,6 +26,5 @@ const GoToCityWeatherButton: React.FC<GoToCityWeatherButtonProps> = ({}) => {
     />
   );
 };
-const styles = StyleSheet.create({});
 
 export default GoToCityWeatherButton;

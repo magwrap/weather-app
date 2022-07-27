@@ -1,4 +1,3 @@
-import GetMyLocationButton from "@/components/Buttons/GetMyLocationButton";
 import {
   toggleTheme,
   useAppDispatch,
@@ -6,12 +5,18 @@ import {
 } from "@/hooks/reduxHooks";
 import { useWeather } from "@/hooks/useWeather/useWeather";
 import * as React from "react";
-import { RefreshControl, ScrollView, View } from "react-native";
-import { Appbar, Divider, Title, useTheme } from "react-native-paper";
-import GoToSearchCityButton from "@/components/Buttons/GoToSearchCityButton";
+import {
+  LayoutAnimation,
+  RefreshControl,
+  ScrollView,
+  View,
+} from "react-native";
+import { Divider } from "react-native-paper";
 import Layout from "@/constants/Layout";
 import { weatherForecastInterface } from "@/hooks/useWeather/weatherHookHelpers";
 import DisplayWeatherInfo from "@/components/WeatherInfo/DisplayWeatherInfo";
+import { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import Header from "@/components/Header";
 
 const wait = (timeout: number) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -37,14 +42,24 @@ const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
   );
   const dispatch = useAppDispatch();
 
+  const titleOpacity = useSharedValue(0);
+  const titleAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: titleOpacity.value,
+    };
+  });
+
   React.useEffect(() => {
-    if (location) getCityForecast(location);
+    if (location) {
+      getCityForecast(location);
+    }
   }, [location]);
 
   const getCityForecast = async (cityName: string) => {
     const weather = await getCityWeatherForecast(cityName, 3, true, false);
 
     if (weather && "current" in weather) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
       if (weather.current.is_day && isDarkTheme) {
         dispatch(toggleTheme());
       } else if (!weather.current.is_day && !isDarkTheme) {
@@ -53,7 +68,6 @@ const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
       setCurrentWeather(weather);
     }
   };
-  //TODO: dodac layout animacje przy otwieraniu aplikacji
   return (
     <View
       style={{
@@ -62,28 +76,7 @@ const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
         paddingTop: Layout.statusBarHeight,
         marginHorizontal: "2%",
       }}>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: "100%",
-        }}>
-        <View style={{ width: "15%" }}>
-          <GoToSearchCityButton />
-        </View>
-        <Title
-          style={{
-            alignSelf: "center",
-            textAlign: "center",
-            marginVertical: "2%",
-            width: "70%",
-          }}>
-          {location}
-        </Title>
-        <View style={{ width: "15%" }}>
-          <GetMyLocationButton />
-        </View>
-      </View>
+      <Header location={location} />
       <Divider style={{ height: 2 }} />
       <ScrollView
         showsVerticalScrollIndicator={false}
