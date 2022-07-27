@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button, IconButton, useTheme } from "react-native-paper";
 import * as Location from "expo-location";
 import { BING_MAPS_KEY } from "API_KEY";
@@ -7,22 +7,51 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { setLocation } from "@/state";
 import { MaterialIcons } from "@expo/vector-icons";
 import { IconSizes } from "@/styles/Fonts";
+import Animated, {
+  cancelAnimation,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from "react-native-reanimated";
 
 interface GetMyLocationButtonProps {}
 
 const GetMyLocationButton: React.FC<GetMyLocationButtonProps> = ({}) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [permissionGranted, setPermissionGranted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const dispatch = useAppDispatch();
   const location = useAppSelector((state) => state.LocationReducer.location);
   const { colors } = useTheme();
+
+  const scaleIcon = useSharedValue(1);
+
+  const iconAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scaleIcon.value }],
+    };
+  });
 
   useEffect(() => {
     if (!location) {
       getMyLocation();
     }
   }, []);
+
+  useEffect(() => {
+    if (loading) {
+      scaleIcon.value = withRepeat(
+        withTiming(1.4, { duration: 2000 }),
+        -1,
+        true
+      );
+    } else {
+      // cancelAnimation(scaleIcon);
+      scaleIcon.value = withTiming(1, { duration: 2000 });
+    }
+  }, [loading]);
 
   const getMyLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -31,6 +60,7 @@ const GetMyLocationButton: React.FC<GetMyLocationButtonProps> = ({}) => {
       return;
     }
     setPermissionGranted(true);
+    setLoading(true);
     let currentLocation = await Location.getCurrentPositionAsync({
       accuracy: Location.LocationAccuracy.Low,
     });
@@ -48,8 +78,10 @@ const GetMyLocationButton: React.FC<GetMyLocationButtonProps> = ({}) => {
           resJSON.resourceSets[0].resources[0].address["formattedAddress"]
         )
       );
+      setLoading(false);
     } catch (err) {
       console.error(err);
+      setLoading(false);
     }
   };
   return (
@@ -57,12 +89,14 @@ const GetMyLocationButton: React.FC<GetMyLocationButtonProps> = ({}) => {
       <IconButton
         onPress={getMyLocation}
         icon={() => (
-          <MaterialIcons
-            name={permissionGranted ? "gps-fixed" : "gps-not-fixed"}
-            size={IconSizes.NORMAL}
-            color={colors.primary}
-            //TODO: dodac animacje do ikony lokacji
-          />
+          <Animated.View style={iconAnimatedStyle}>
+            <MaterialIcons
+              name={permissionGranted ? "gps-fixed" : "gps-not-fixed"}
+              size={IconSizes.NORMAL}
+              color={colors.primary}
+              //TODO: dodac animacje do ikony lokacji
+            />
+          </Animated.View>
         )}
       />
       {/* TODO: alertuje error message jesli sie pojawi jakas */}
