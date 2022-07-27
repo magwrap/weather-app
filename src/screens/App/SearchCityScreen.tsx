@@ -1,13 +1,14 @@
 import GoToCityWeatherButton from "@/components/Buttons/GoToCityWeatherButton";
 import SearchCityItem from "@/components/SearchCityItem";
 import Layout from "@/constants/Layout";
+import { useAppSelector } from "@/hooks/reduxHooks";
 import { useWeather } from "@/hooks/useWeather/useWeather";
 import {
   cityInterface,
   errorInterface,
 } from "@/hooks/useWeather/weatherHookHelpers";
 import * as React from "react";
-import { Keyboard, LayoutAnimation, ScrollView, View } from "react-native";
+import { LayoutAnimation, ScrollView, View } from "react-native";
 import { ActivityIndicator, Paragraph, Searchbar } from "react-native-paper";
 
 interface SearchCityScreenProps {}
@@ -18,6 +19,9 @@ const SearchCityScreen: React.FC<SearchCityScreenProps> = ({}) => {
   >([]);
   const [searching, setSearching] = React.useState(false);
   const { searchCity } = useWeather();
+  const isDarkTheme = useAppSelector(
+    (state) => state.DarkThemeReducer.isDarkTheme
+  );
 
   const onChangeSearch = (query: string) => {
     setSearchQuery(query);
@@ -45,9 +49,11 @@ const SearchCityScreen: React.FC<SearchCityScreenProps> = ({}) => {
 
   return (
     <View style={{ paddingTop: Layout.statusBarHeight, flex: 1 }}>
+      {/* TODO: kolor klawiatury sie nie zmiena */}
       <Searchbar
+        keyboardAppearance={isDarkTheme ? "dark" : "light"}
+        placeholder="Search City"
         icon={() => <GoToCityWeatherButton />}
-        placeholder="Search"
         onChangeText={onChangeSearch}
         value={searchQuery}
         style={{ marginHorizontal: "2%" }}
