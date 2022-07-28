@@ -2,9 +2,9 @@ import { weatherForecastInterface } from "@/hooks/useWeather/weatherHookHelpers"
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
-import AirPollution from "./AirPollution";
+import AirPollution from "./AirQuality/AirPollution";
 import CurrenWeather from "./CurrenWeather";
-import WeatherForecast from "./WeatherForecast";
+import WeatherForecast from "./Forecast/WeatherForecast";
 import WindAndHumidity from "./WindAndHumidity";
 
 interface DisplayWeatherInfoProps {

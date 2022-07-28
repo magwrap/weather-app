@@ -37,12 +37,14 @@ const WindAndHumidity: React.FC<WindAndHumidityProps> = ({
   });
 
   useEffect(() => {
-    windOffset.value = withRepeat(withTiming(-1, { duration: 1000 }), -1, true);
-    dropsOffset.value = withRepeat(
-      withTiming(3, { duration: 5000 }),
+    windOffset.value = withRepeat(
+      withTiming(-2, {
+        duration: 1000 / (currentWeatherCurrent.wind_mph / 20),
+      }),
       -1,
-      false
+      true
     );
+    dropsOffset.value = withRepeat(withTiming(3, { duration: 5000 }), -1, true);
   }, []);
 
   return (

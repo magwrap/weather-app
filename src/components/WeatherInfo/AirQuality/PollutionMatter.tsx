@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet } from "react-native";
 import { Caption } from "react-native-paper";
 import Animated, {
@@ -10,13 +10,16 @@ import Animated, {
 interface PollutonMatterProps {
   airQuality: AirQuality;
   pollutionInfo: string;
+  showPollutionInfo: boolean;
+  toggleShowPollutionInfo: () => void;
 }
 
-function PollutionMatter({ airQuality, pollutionInfo }: PollutonMatterProps) {
-  const [showPollutionInfo, setShowPollutionInfo] = useState(false);
-  const toggleShowPollutionInfo = () =>
-    setShowPollutionInfo(!showPollutionInfo);
-
+function PollutionMatter({
+  airQuality,
+  pollutionInfo,
+  showPollutionInfo,
+  toggleShowPollutionInfo,
+}: PollutonMatterProps) {
   const toggleTextOpacity = () => {
     if (textOpacity.value === 0) textOpacity.value = withTiming(1);
     else if (textOpacity.value === 1) textOpacity.value = withTiming(0);
@@ -24,10 +27,11 @@ function PollutionMatter({ airQuality, pollutionInfo }: PollutonMatterProps) {
 
   const onPress = () => {
     toggleShowPollutionInfo();
-    toggleTextOpacity();
   };
-
-  const textOpacity = useSharedValue(0);
+  useEffect(() => {
+    toggleTextOpacity();
+  }, [showPollutionInfo]);
+  const textOpacity = useSharedValue(showPollutionInfo ? 0 : 1);
 
   const animatedTextStyle = useAnimatedStyle(() => {
     return {

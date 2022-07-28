@@ -1,7 +1,8 @@
 import { weatherForecastInterface } from "@/hooks/useWeather/weatherHookHelpers";
 import React from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Image, Text } from "react-native";
 import { Caption, Paragraph, Title, useTheme } from "react-native-paper";
+import { whatDayIsIt } from "./dayOfTheWeek";
 
 interface WeatherForecastProps {
   currentWeather: weatherForecastInterface;
@@ -11,10 +12,13 @@ const WeatherForecast: React.FC<WeatherForecastProps> = ({
   currentWeather,
 }) => {
   const { colors } = useTheme();
+
   return (
     <>
       {currentWeather.forecast.forecastday.map((forecastDay, i) => {
-        const date = forecastDay.date.split("-");
+        const dateWhole = forecastDay.date;
+        const dayOfTheWeek = whatDayIsIt(new Date(dateWhole).getDay());
+        const date = dateWhole.split("-");
         const today = currentWeather.location.localtime
           .split("-")[2]
           .split(" ")[0];
@@ -27,7 +31,14 @@ const WeatherForecast: React.FC<WeatherForecastProps> = ({
                 {date[2]}.{date[1]}
               </Title>
               <Caption style={styles.centerText}>
-                {diff === 0 ? "Today" : diff === -1 ? "Tommorow" : "Coming day"}
+                <Text style={{ fontStyle: "italic", fontWeight: "bold" }}>
+                  {diff === 0
+                    ? "Today\n"
+                    : diff === -1
+                    ? "Tommorow\n"
+                    : "Coming day\n"}
+                </Text>{" "}
+                {dayOfTheWeek}
               </Caption>
               <View style={styles.forecastTemperature}>
                 <View>
