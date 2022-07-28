@@ -15,7 +15,6 @@ import { Divider } from "react-native-paper";
 import Layout from "@/constants/Layout";
 import { weatherForecastInterface } from "@/hooks/useWeather/weatherHookHelpers";
 import DisplayWeatherInfo from "@/components/WeatherInfo/DisplayWeatherInfo";
-import { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 import Header from "@/components/Header";
 
 const wait = (timeout: number) => {
@@ -41,13 +40,6 @@ const CityWeatherScreen: React.FC<CityWeatherScreenProps> = ({}) => {
     (state) => state.DarkThemeReducer.isDarkTheme
   );
   const dispatch = useAppDispatch();
-
-  const titleOpacity = useSharedValue(0);
-  const titleAnimatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: titleOpacity.value,
-    };
-  });
 
   React.useEffect(() => {
     if (location) {

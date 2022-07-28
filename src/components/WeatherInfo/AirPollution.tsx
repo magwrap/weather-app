@@ -1,13 +1,7 @@
 import { currentWeatherInterface } from "@/hooks/useWeather/weatherHookHelpers";
-import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import {
-  Caption,
-  Headline,
-  Paragraph,
-  Subheading,
-  Title,
-} from "react-native-paper";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { Paragraph, Subheading } from "react-native-paper";
 import { calculateAirQuality } from "./calculateAirQuality";
 import PollutionMatter from "./PollutionMatter";
 

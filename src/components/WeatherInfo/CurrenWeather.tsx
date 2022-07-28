@@ -5,7 +5,6 @@ import { Caption, Subheading, useTheme } from "react-native-paper";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withSpring,
   withTiming,
   withRepeat,
 } from "react-native-reanimated";

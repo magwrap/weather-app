@@ -1,9 +1,9 @@
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { currentWeatherInterface } from "@/hooks/useWeather/weatherHookHelpers";
 import React, { useEffect } from "react";
-import { StyleSheet, View, Image, Animated } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import { Paragraph } from "react-native-paper";
-import {
+import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -21,30 +21,43 @@ const WindAndHumidity: React.FC<WindAndHumidityProps> = ({
     (state) => state.DarkThemeReducer.isDarkTheme
   );
 
-  const offset = useSharedValue(0);
+  const windOffset = useSharedValue(0);
+  const dropsOffset = useSharedValue(0);
 
-  const animimatedImageStyle = useAnimatedStyle(() => {
+  const animimatedWindImageStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: 120 }],
+      transform: [{ translateX: windOffset.value }],
     };
   });
-  //FIXME: sprawic zeby ta animacja dzialala
+
+  const animatedDropsImageStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: dropsOffset.value }],
+    };
+  });
+
   useEffect(() => {
-    offset.value = withRepeat(withTiming(1200), -1, true);
+    windOffset.value = withRepeat(withTiming(-1, { duration: 1000 }), -1, true);
+    dropsOffset.value = withRepeat(
+      withTiming(3, { duration: 5000 }),
+      -1,
+      false
+    );
   }, []);
 
   return (
     <>
       <View style={styles.airProps}>
-        <Image
-          source={require("../../../assets/images/humidity.png")}
-          style={[styles.weatherIcon, styles.iconMargin]}
-        />
+        <Animated.View style={animatedDropsImageStyle}>
+          <Image
+            source={require("../../../assets/images/humidity.png")}
+            style={[styles.weatherIcon, styles.iconMargin]}
+          />
+        </Animated.View>
         <Paragraph>Humidity: {currentWeatherCurrent.humidity}%</Paragraph>
       </View>
       <View style={styles.airProps}>
-        <Animated.View
-          style={[animimatedImageStyle, { backgroundColor: "red" }]}>
+        <Animated.View style={[animimatedWindImageStyle]}>
           {isDarkMode ? (
             <Image
               source={require("../../../assets/images/wind-inverted.png")}

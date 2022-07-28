@@ -4,7 +4,7 @@ import { setLocation } from "@/state";
 import { IconSizes } from "@/styles/Fonts";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { LayoutAnimation, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Avatar, List, TouchableRipple } from "react-native-paper";
 
 interface SearchCityItemProps {
@@ -28,12 +28,9 @@ const SearchCityItem: React.FC<SearchCityItemProps> = ({ city }) => {
       <List.Item
         title={city.name}
         description={city.country}
-        style={{
-          backgroundColor: "rgba(0,0,0,0.04)",
-          marginVertical: "0.5%",
-        }}
+        style={styles.listItem}
         left={(props) => (
-          <View style={{ justifyContent: "center" }}>
+          <View style={styles.avatar}>
             <Avatar.Image
               {...props}
               source={{
@@ -47,6 +44,12 @@ const SearchCityItem: React.FC<SearchCityItemProps> = ({ city }) => {
     </TouchableRipple>
   );
 };
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  listItem: {
+    backgroundColor: "rgba(0,0,0,0.04)",
+    marginVertical: "0.5%",
+  },
+  avatar: { justifyContent: "center" },
+});
 
 export default SearchCityItem;

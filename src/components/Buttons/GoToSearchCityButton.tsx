@@ -1,10 +1,10 @@
 import { ScreenNames } from "@/navigation/ScreenNames";
-import { FontSizes, IconSizes } from "@/styles/Fonts";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { IconSizes } from "@/styles/Fonts";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { LayoutAnimation, StyleSheet, Text, View } from "react-native";
-import { Button, IconButton, useTheme } from "react-native-paper";
+import { StyleSheet } from "react-native";
+import { IconButton, useTheme } from "react-native-paper";
 
 interface GoToSearchCityButtonProps {}
 
