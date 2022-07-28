@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { LayoutAnimation, StyleSheet, View } from "react-native";
+import { LayoutAnimation } from "react-native";
 import { IconButton, useTheme } from "react-native-paper";
 import * as Location from "expo-location";
 import { BING_MAPS_KEY } from "API_KEY";
@@ -85,24 +85,19 @@ const GetMyLocationButton: React.FC<GetMyLocationButtonProps> = ({}) => {
     }
   };
   return (
-    <>
-      <IconButton
-        onPress={getMyLocation}
-        icon={() => (
-          <Animated.View style={iconAnimatedStyle}>
-            <MaterialIcons
-              name={permissionGranted ? "gps-fixed" : "gps-not-fixed"}
-              size={IconSizes.NORMAL}
-              color={colors.primary}
-              //TODO: dodac animacje do ikony lokacji
-            />
-          </Animated.View>
-        )}
-      />
-      {/* TODO: alertuje error message jesli sie pojawi jakas */}
-    </>
+    <IconButton
+      onPress={getMyLocation}
+      icon={() => (
+        <Animated.View style={iconAnimatedStyle}>
+          <MaterialIcons
+            name={permissionGranted ? "gps-fixed" : "gps-not-fixed"}
+            size={IconSizes.NORMAL}
+            color={colors.primary}
+          />
+        </Animated.View>
+      )}
+    />
   );
 };
-const styles = StyleSheet.create({});
 
 export default GetMyLocationButton;

@@ -3,7 +3,7 @@ import { FontSizes, IconSizes } from "@/styles/Fonts";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { LayoutAnimation, StyleSheet, Text, View } from "react-native";
 import { Button, IconButton, useTheme } from "react-native-paper";
 
 interface GoToSearchCityButtonProps {}

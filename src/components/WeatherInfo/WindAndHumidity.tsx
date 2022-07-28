@@ -25,10 +25,10 @@ const WindAndHumidity: React.FC<WindAndHumidityProps> = ({
 
   const animimatedImageStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: offset.value }],
+      transform: [{ translateX: 120 }],
     };
   });
-  //TODO: sprawic zeby ta animacja dzialala
+  //FIXME: sprawic zeby ta animacja dzialala
   useEffect(() => {
     offset.value = withRepeat(withTiming(1200), -1, true);
   }, []);
@@ -44,10 +44,7 @@ const WindAndHumidity: React.FC<WindAndHumidityProps> = ({
       </View>
       <View style={styles.airProps}>
         <Animated.View
-          style={[
-            // { backgroundColor: "red" },
-            animimatedImageStyle,
-          ]}>
+          style={[animimatedImageStyle, { backgroundColor: "red" }]}>
           {isDarkMode ? (
             <Image
               source={require("../../../assets/images/wind-inverted.png")}
@@ -61,7 +58,7 @@ const WindAndHumidity: React.FC<WindAndHumidityProps> = ({
           )}
         </Animated.View>
         <Paragraph>
-          Wind: {currentWeatherCurrent.gust_kph} kph{" "}
+          Wind: {currentWeatherCurrent.gust_kph}kph{" "}
           {currentWeatherCurrent.wind_dir}
         </Paragraph>
       </View>

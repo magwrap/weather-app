@@ -41,7 +41,7 @@ const SearchCityScreen: React.FC<SearchCityScreenProps> = ({}) => {
 
   const ViewActivityIndicator = () => {
     if (searching) {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
       return <ActivityIndicator style={{ margin: "5%" }} />;
     }
     return <View />;
@@ -49,7 +49,6 @@ const SearchCityScreen: React.FC<SearchCityScreenProps> = ({}) => {
 
   return (
     <View style={{ paddingTop: Layout.statusBarHeight, flex: 1 }}>
-      {/* TODO: kolor klawiatury sie nie zmiena */}
       <Searchbar
         keyboardAppearance={isDarkTheme ? "dark" : "light"}
         placeholder="Search City"
@@ -67,7 +66,7 @@ const SearchCityScreen: React.FC<SearchCityScreenProps> = ({}) => {
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
             return <SearchCityItem city={city} key={i} />;
           })}
-          {/* <ViewActivityIndicator /> */}
+          <ViewActivityIndicator />
         </ScrollView>
       )}
     </View>

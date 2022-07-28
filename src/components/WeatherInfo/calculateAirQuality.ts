@@ -23,7 +23,7 @@ export const calculateAirQuality = (AQI: number): AirQuality => {
       color: AirPollutonColors.PURPLE,
       categoryNum: 5,
     };
-  else if (AQI >= 301 && AQI <= 500)
+  else if (AQI >= 301)
     return {
       text: "Hazardous",
       color: AirPollutonColors.MAROON,
